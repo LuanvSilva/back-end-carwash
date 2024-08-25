@@ -1,13 +1,15 @@
-package com.carwash.carwash.adapter.dtos;
+package com.carwash.carwash.adapter.entities;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@Entity
+@Getter
 @AllArgsConstructor
-@Data
-public class UsuarioDto {
+@NoArgsConstructor
+public class UsuarioEntity {
     
     private Long id;
     private String nome;

@@ -3,6 +3,7 @@ package com.carwash.carwash.core.domain;
 
 public class Usuario {
     
+    private Long id;
     private String nome;
     private String email;
     private String senha;
@@ -13,7 +14,8 @@ public class Usuario {
     private String status;
     private String dataCadastro;
 
-    public Usuario(String nome, String email, String senha, String telefone, String endereco, String cpfcnpj, String tipo, String status, String dataCadastro) {
+    public Usuario(Long id, String nome, String email, String senha, String telefone, String endereco, String cpfcnpj, String tipo, String status, String dataCadastro) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -26,6 +28,14 @@ public class Usuario {
     }
 
     public Usuario() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

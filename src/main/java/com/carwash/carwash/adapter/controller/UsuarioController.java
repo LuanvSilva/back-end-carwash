@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carwash.carwash.adapter.converters.UsuarioCoverter;
 import com.carwash.carwash.adapter.dtos.UsuarioDto;
-import com.carwash.carwash.core.domain.ports.UsuarioServicePort;
+import com.carwash.carwash.core.domain.Usuario;
+import com.carwash.carwash.core.ports.UsuarioServicePort;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +25,8 @@ public class UsuarioController {
     public UsuarioDto cadastrarUsuario(@RequestBody UsuarioDto usuarioDto) {
 
         System.out.println(usuarioDto);  
-        return usuarioServicePort.cadastrarUsuario(usuarioCoverter.toUsuarioDto(usuarioDto)); 
+        return usuarioCoverter.
+                toUsuarioDto(usuarioServicePort.cadastrarUsuario(usuarioCoverter.toUsuarioDomain(usuarioDto)));
     }
 
     @GetMapping("/")
