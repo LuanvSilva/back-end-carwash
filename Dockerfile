@@ -16,6 +16,7 @@ RUN mvn clean install
 # Etapa de runtime usando OpenJDK
 FROM eclipse-temurin:22-jre-alpine
 
+# Copia o arquivo JAR gerado na etapa de build
 COPY --from=build /app/target/*.jar /app.jar
 
 WORKDIR /app

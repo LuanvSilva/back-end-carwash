@@ -5,6 +5,8 @@ public class UserDTO {
     private Long id;
     private String name;
     private String email;
+    private Long empresa_moon;
+    private boolean ativo;
 
     // Getters and Setters
     public Long getId() {
@@ -29,5 +31,22 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getEmpresa_moon() {
+        return empresa_moon;
+    }
+
+    public void setEmpresa_moon(Long empresa_moon) {
+        this.empresa_moon = empresa_moon;
+    }
+
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
