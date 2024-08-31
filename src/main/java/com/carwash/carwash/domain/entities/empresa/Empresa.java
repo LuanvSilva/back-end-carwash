@@ -36,7 +36,7 @@ public class Empresa {
     private boolean ativo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id", nullable = false)
+    @JoinColumn(name = "endereco_id", nullable = true)
     private Endereco endereco;
 
 }

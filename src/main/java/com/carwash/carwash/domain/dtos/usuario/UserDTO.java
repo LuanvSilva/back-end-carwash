@@ -1,4 +1,6 @@
 package com.carwash.carwash.domain.dtos.usuario;
+import com.carwash.carwash.domain.entities.empresa.Empresa;
+
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,7 +14,8 @@ public class UserDTO {
     private Long id;
     private String name;
     private String email;
-    private Long empresa_moon;
+    private String password;
+    private Empresa empresa;
     private boolean ativo;
 
 }

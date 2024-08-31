@@ -32,6 +32,9 @@ public class UsuarioService {
         Usuario user = new Usuario();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setEmpresa(userDTO.getEmpresa());
+        user.setAtivo(true);
 
         Usuario savedUser = userRepository.save(user);
         return convertToDTO(savedUser);

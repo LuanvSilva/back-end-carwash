@@ -30,6 +30,9 @@ public class Usuario {
     @Column(nullable = true, unique = true, length = 100)
     private String email;
 
+    @Column(nullable = true, length = 20)
+    private String password;
+
     @Column(nullable = false)
     boolean ativo;
 
