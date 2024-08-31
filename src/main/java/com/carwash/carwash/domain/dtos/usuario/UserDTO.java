@@ -15,5 +15,4 @@ public class UserDTO {
     private Long empresa_moon;
     private boolean ativo;
 
-   
 }

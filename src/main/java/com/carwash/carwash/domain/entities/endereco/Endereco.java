@@ -44,5 +44,5 @@ public class Endereco {
     @Column(nullable = false, length = 155)
     private String complemento;
 
-   
+
 }
