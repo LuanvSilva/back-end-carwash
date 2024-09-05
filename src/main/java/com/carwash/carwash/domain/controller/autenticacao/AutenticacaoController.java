@@ -1,37 +1,45 @@
-// package com.carwash.carwash.domain.controller.autenticacao;
+package com.carwash.carwash.domain.controller.autenticacao;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.ResponseStatus;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-// @RequestMapping("/api/v1/auth")
-// public class AutenticacaoController {
-    
-//     @Autowired
-//     private AuthenticationManager authenticationManager;
+import com.carwash.carwash.domain.dtos.autenticacao.AuthDto;
+import com.carwash.carwash.domain.dtos.autenticacao.RequestRefreshDto;
+import com.carwash.carwash.domain.dtos.autenticacao.TokenResponseDto;
+import com.carwash.carwash.domain.service.autenticacao.AutenticacaoService;
 
-//     @Autowired
-//     private AutenticacaoService autenticacaoService;
+@RestController
+@RequestMapping("/api/v1/auth")
+public class AutenticacaoController {
 
-//     @PostMapping
-//     @ResponseStatus(HttpStatus.OK)
-//     public TokenResponseDto auth(@RequestBody AuthDto authDto) {
+    @Autowired
+    private AutenticacaoService autenticacaoService;
 
-//         var usuarioAutenticationToken = new UsernamePasswordAuthenticationToken(authDto.login(), authDto.senha());
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponseDto> login(@RequestBody AuthDto authDto) {
 
-//         authenticationManager.authenticate(usuarioAutenticationToken);
+        try {
+            TokenResponseDto tokenResponse = autenticacaoService.obterToken(authDto);
+            return ResponseEntity.ok(tokenResponse);
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
-//         return autenticacaoService.obterToken(authDto);
-//     }
-
-//     @PostMapping("/refresh-token")
-//     @ResponseStatus(HttpStatus.OK)
-//     public TokenResponseDto authRefreshToken(@RequestBody RequestRefreshDto requestRefreshDto) {
-//         return autenticacaoService.obterRefreshToken(requestRefreshDto.refreshToken());
-//     }
-// }
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResponseDto> refresh(@RequestBody RequestRefreshDto request) {
+        
+        try {
+            TokenResponseDto tokenResponse = autenticacaoService.obterRefreshToken(request.refreshToken());
+            return ResponseEntity.ok(tokenResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+}

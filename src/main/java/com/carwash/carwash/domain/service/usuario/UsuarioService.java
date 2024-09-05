@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.carwash.carwash.domain.dtos.usuario.UserDTO;
+import com.carwash.carwash.domain.entities.empresa.Empresa;
 import com.carwash.carwash.domain.entities.usuario.Usuario;
+import com.carwash.carwash.domain.repositories.empresa.EmpresaRepository;
 import com.carwash.carwash.domain.repositories.usuario.UserRepository;
 import com.carwash.carwash.util.exceptions.CustomException;
 import com.carwash.carwash.util.exceptions.ErrorMessages;
@@ -17,23 +20,32 @@ public class UsuarioService {
 
   
     private final UserRepository userRepository;
+    private final EmpresaRepository empresaRepository;
+
+     @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioService(UserRepository userRepository) {
+    public UsuarioService(UserRepository userRepository, EmpresaRepository empresaRepository) {
         this.userRepository = userRepository;
+        this.empresaRepository = empresaRepository;
     }
+
 
     public UserDTO createUser(UserDTO userDTO) {
         
-        if (userRepository.existsByEmail(userDTO.getEmail())) {
+        if (this.userRepository.existsByEmail(userDTO.getEmail())) {
             throw new CustomException(ErrorMessages.EMAIL_INVALIDO + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
         }
+
+        Empresa buscaEmpresa = this.empresaRepository.findById(userDTO.getEmpresa())
+                .orElseThrow(() -> new CustomException(ErrorMessages.EMPRESA_NAO_ENCONTRADA + userDTO.getEmpresa(), HttpStatus.NOT_FOUND));
 
         Usuario user = new Usuario();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setEmpresa(userDTO.getEmpresa());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setEmpresa(buscaEmpresa);
         user.setAtivo(true);
 
         Usuario savedUser = userRepository.save(user);

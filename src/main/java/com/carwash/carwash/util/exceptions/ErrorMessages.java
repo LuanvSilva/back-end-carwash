@@ -11,6 +11,8 @@ public class ErrorMessages {
     public static final String SENHA_INVALIDA = "Senha inválida";
     public static final String SENHA_NAO_CONFERE = "Senha não confere";
     public static final String SENHA_NAO_ALTERADA = "Senha não alterada";
+    public static final String EMPRESA_NAO_ENCONTRADA = "Empresa não encontrada";
+    public static final String TOKEN_INVALIDO = "Token invalido";
     
     
 }

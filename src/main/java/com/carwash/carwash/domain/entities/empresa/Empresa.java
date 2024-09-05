@@ -1,6 +1,5 @@
 package com.carwash.carwash.domain.entities.empresa;
 
-import com.carwash.carwash.domain.entities.endereco.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,14 +28,10 @@ public class Empresa {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = true, length = 20)
     private String telefone;
 
-    @Column(nullable = false)
     private boolean ativo;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id", nullable = true)
-    private Endereco endereco;
 
 }

@@ -24,13 +24,13 @@ public class Usuario {
     @JoinColumn(name = "empresa_moon", nullable = false)
     private Empresa empresa;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = true, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = true, length = 20)
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Column(nullable = false)

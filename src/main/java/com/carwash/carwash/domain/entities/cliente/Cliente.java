@@ -25,13 +25,13 @@ public class Cliente {
     @JoinColumn(name = "empresa_moon", nullable = false)
     private Empresa empresa;
 
-    @Column(nullable = true, unique = true, length = 20)
+    @Column(nullable = false, unique = true, length = 20)
     private String cpfcnpj;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = true, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @Column(nullable = false, length = 20)
@@ -41,7 +41,6 @@ public class Cliente {
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
-    @Column(nullable = false)
     boolean ativo;
     
 
