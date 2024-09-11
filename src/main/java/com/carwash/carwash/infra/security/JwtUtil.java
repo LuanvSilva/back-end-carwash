@@ -1,6 +1,8 @@
 package com.carwash.carwash.infra.security;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.carwash.carwash.util.constantes.Constantes;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,12 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.function.Function;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-    import io.jsonwebtoken.SignatureAlgorithm;
-
 @Component
 public class JwtUtil {
+
+    private Algorithm algorithm = Algorithm.HMAC256(Constantes.CHAVE_SECRETA_STRING);
 
     public String generateToken(UserDetails userDetails) {
         return createToken(new HashMap<>(), userDetails.getUsername(), 5); // Token expira em 5 horas
@@ -24,9 +24,6 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject, int hours) {
-
-        Algorithm algorithm = Algorithm.HMAC256(Constantes.CHAVE_SECRETA_STRING);
-        
         return JWT.create()
                 .withSubject(subject)
                 .withIssuedAt(new Date())
@@ -40,16 +37,17 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, DecodedJWT::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+    public <T> T extractClaim(String token, Function<DecodedJWT, T> claimsResolver) {
+        final DecodedJWT decodedJWT = extractAllClaims(token);
+        return claimsResolver.apply(decodedJWT);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(Constantes.CHAVE_SECRETA_STRING).parseClaimsJws(token).getBody();
+    private DecodedJWT extractAllClaims(String token) {
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        return verifier.verify(token); // Verifica a validade e decodifica o token
     }
 
     private Boolean isTokenExpired(String token) {
@@ -57,6 +55,6 @@ public class JwtUtil {
     }
 
     private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return extractClaim(token, DecodedJWT::getExpiresAt);
     }
 }

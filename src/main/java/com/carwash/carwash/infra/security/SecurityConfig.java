@@ -35,12 +35,15 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users/cadastrarUsuario").permitAll()
+                .requestMatchers(HttpMethod.GET,    "/login", "/login/**").permitAll() 
+                .requestMatchers(HttpMethod.POST,   "/api/v1/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET,    "http://127.0.0.1:5500/**").permitAll() // Permitir acesso às URLs do front-end para GET
+                .requestMatchers(HttpMethod.POST,   "http://127.0.0.1:5500/**").permitAll() // Permitir acesso às URLs do front-end para POST
+                .requestMatchers(HttpMethod.POST,   "/api/v1/auth/refresh").permitAll()
+                .requestMatchers(HttpMethod.POST,   "/api/users/cadastrarUsuario").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).cors();
         return http.build();
     }
 

@@ -3,6 +3,7 @@ package com.carwash.carwash.domain.controller.usuario;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carwash.carwash.domain.dtos.usuario.UserDTO;
@@ -30,7 +32,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscarUsuario")
-    public ResponseEntity<UserDTO> getUserById(@RequestBody Long id) {
+    public ResponseEntity<UserDTO> getUserById(@RequestParam Long id) {
         UserDTO user = userService.getUserById(id);
         return user != null ? new ResponseEntity<>(user, HttpStatus.OK)
                             : new ResponseEntity<>(HttpStatus.NOT_FOUND);

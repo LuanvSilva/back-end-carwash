@@ -53,6 +53,7 @@ public class UsuarioService {
     }
 
     public UserDTO getUserById(Long id) {
+
         Usuario user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND));
 
@@ -65,6 +66,7 @@ public class UsuarioService {
     }
 
     public UserDTO updateUser(Long id, UserDTO userDTO) {
+
         Usuario user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND));
 
@@ -80,13 +82,16 @@ public class UsuarioService {
     }
 
     public void deleteUser(Long id) {
+
         if (!userRepository.existsById(id)) {
             throw new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND);
         }
+
         userRepository.deleteById(id);
     }
 
     private UserDTO convertToDTO(Usuario user) {
+        
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());

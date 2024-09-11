@@ -30,6 +30,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        System.out.println("Processing request for: " + request.getRequestURI());
+        String token = (String) request.getSession().getAttribute("token");
+
+        if (token != null) {
+            System.out.println("Token: " + token);
+        }
+
         final String authorizationHeader = request.getHeader("Authorization");
 
         String email = null;

@@ -1,17 +1,18 @@
 package com.carwash.carwash.domain.controller.login;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController()
-@RequestMapping("/api/v1/login")
+import com.carwash.carwash.util.constantes.Constantes;
+
+@Controller
+@RequestMapping("/login")
 public class LoginController {
-    
 
-    @PostMapping("/logar")
+    @GetMapping
     public String logar() {
-        return "Logado";
+        return Constantes.URL_GET_PAGES_LOGIN; 
+        
     }
-
 }
