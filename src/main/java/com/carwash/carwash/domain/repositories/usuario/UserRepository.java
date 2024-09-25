@@ -1,9 +1,9 @@
-package com.carwash.carwash.domain.repositories.usuario;
-
-import com.carwash.carwash.domain.entities.usuario.Usuario;
+package com.carwash.carwash.domain.Repositories.usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.carwash.carwash.domain.Entities.usuario.Usuario;
 
 @Repository
 public interface UserRepository extends JpaRepository<Usuario, Long> {

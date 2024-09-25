@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.dtos.usuario;
+package com.carwash.carwash.domain.Dtos.usuario;
 
 import lombok.*;
 

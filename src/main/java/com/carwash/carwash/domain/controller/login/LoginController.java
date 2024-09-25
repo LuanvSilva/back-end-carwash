@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.controller.login;
+package com.carwash.carwash.domain.Controller.login;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

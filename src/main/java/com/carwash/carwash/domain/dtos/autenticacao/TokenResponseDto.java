@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.dtos.autenticacao;
+package com.carwash.carwash.domain.Dtos.autenticacao;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

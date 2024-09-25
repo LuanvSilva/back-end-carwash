@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.service.usuario;
+package com.carwash.carwash.domain.Service.usuario;
 
 import java.util.List;
 
@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.carwash.carwash.domain.dtos.usuario.UserDTO;
-import com.carwash.carwash.domain.entities.empresa.Empresa;
-import com.carwash.carwash.domain.entities.usuario.Usuario;
-import com.carwash.carwash.domain.repositories.empresa.EmpresaRepository;
-import com.carwash.carwash.domain.repositories.usuario.UserRepository;
+import com.carwash.carwash.domain.Dtos.usuario.UserDTO;
+import com.carwash.carwash.domain.Entities.empresa.Empresa;
+import com.carwash.carwash.domain.Entities.usuario.Usuario;
+import com.carwash.carwash.domain.Repositories.empresa.EmpresaRepository;
+import com.carwash.carwash.domain.Repositories.usuario.UserRepository;
 import com.carwash.carwash.util.exceptions.CustomException;
 import com.carwash.carwash.util.exceptions.ErrorMessages;
 
@@ -22,7 +22,7 @@ public class UsuarioService {
     private final UserRepository userRepository;
     private final EmpresaRepository empresaRepository;
 
-     @Autowired
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired

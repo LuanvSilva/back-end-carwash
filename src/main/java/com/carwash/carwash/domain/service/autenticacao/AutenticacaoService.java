@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.service.autenticacao;
+package com.carwash.carwash.domain.Service.autenticacao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -6,9 +6,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.carwash.carwash.domain.dtos.autenticacao.AuthDto;
-import com.carwash.carwash.domain.dtos.autenticacao.TokenResponseDto;
-import com.carwash.carwash.domain.service.impl.usuario.UserDetailsServiceImpl;
+import com.carwash.carwash.domain.Dtos.autenticacao.AuthDto;
+import com.carwash.carwash.domain.Dtos.autenticacao.TokenResponseDto;
+import com.carwash.carwash.domain.Service.Impl.usuario.UserDetailsServiceImpl;
 import com.carwash.carwash.infra.security.JwtUtil;
 import com.carwash.carwash.util.exceptions.ErrorMessages;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,7 @@
-package com.carwash.carwash.domain.entities.cliente;
+package com.carwash.carwash.domain.Entities.cliente;
 
-import com.carwash.carwash.domain.entities.empresa.Empresa;
-import com.carwash.carwash.domain.entities.endereco.Endereco;
+import com.carwash.carwash.domain.Entities.empresa.Empresa;
+import com.carwash.carwash.domain.Entities.endereco.Endereco;
 
 import jakarta.persistence.*;
 import lombok.*;

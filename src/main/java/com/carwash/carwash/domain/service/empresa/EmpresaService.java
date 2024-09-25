@@ -1,4 +1,4 @@
-package com.carwash.carwash.domain.service.empresa;
+package com.carwash.carwash.domain.Service.empresa;
 
 public interface EmpresaService {
     

@@ -1,4 +1,6 @@
-package com.carwash.carwash.domain.entities.empresa;
+package com.carwash.carwash.domain.Entities.empresa;
+
+import com.carwash.carwash.domain.Entities.cliente.Cliente;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +34,11 @@ public class Empresa {
     private String telefone;
 
     private boolean ativo;
+
+    public Cliente orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
 
 
 }
