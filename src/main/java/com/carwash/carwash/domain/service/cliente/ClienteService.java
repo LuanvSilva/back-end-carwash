@@ -29,12 +29,12 @@ public class ClienteService {
 
     public ClienteDto createCliente(ClienteDto clienteDto) {
         if (clienteRepository.existsByCpfcnpj(clienteDto.getCpfcnpj())) {
-            throw new CustomException(ErrorMessages.CLIENTE_JA_CADASTRADO, HttpStatus.BAD_REQUEST);
+            throw new CustomException(ErrorMessages.CLIENT_ALREADY_REGISTERED, HttpStatus.BAD_REQUEST);
         }
 
         Empresa buscaEmpresa = empresaRepository.findById(clienteDto.getEmpresa())
-                .orElseThrow(() -> new CustomException(ErrorMessages.EMPRESA_NAO_ENCONTRADA + clienteDto.getEmpresa(), HttpStatus.NOT_FOUND));
-
+                .orElseThrow(() -> new CustomException(ErrorMessages.CLIENT_NOT_FOUND + clienteDto.getEmpresa(), HttpStatus.NOT_FOUND));
+        
         Cliente cliente = new Cliente();
         cliente.setName(clienteDto.getName());
         cliente.setCpfcnpj(clienteDto.getCpfcnpj());
@@ -49,7 +49,7 @@ public class ClienteService {
 
     public ClienteDto getClienteById(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorMessages.USER_NOT_FOUND + id, HttpStatus.NOT_FOUND));
         return convertToDTO(cliente);
     }
 
@@ -61,7 +61,7 @@ public class ClienteService {
     public List<ClienteDto> findClientesByEmpresaId(Long id_empresa) {
         List<Cliente> clientes = clienteRepository.findClientesByEmpresaId(id_empresa);
         if (clientes.isEmpty()) {
-            throw new CustomException(ErrorMessages.CLIENTE_NAO_ENCONTRADO + id_empresa, HttpStatus.NOT_FOUND);
+            throw new CustomException(ErrorMessages.CLIENT_NOT_FOUND + id_empresa, HttpStatus.NOT_FOUND);
         }
         return clientes.stream().map(this::convertToDTO).collect(Collectors.toList());
     }

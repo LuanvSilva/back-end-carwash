@@ -57,7 +57,7 @@ public class AutenticacaoService {
             return new TokenResponseDto(newToken, refreshToken);
 
         } else {
-            throw new IllegalArgumentException(ErrorMessages.TOKEN_INVALIDO);
+            throw new IllegalArgumentException(ErrorMessages.INVALID_TOKEN);
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private Algorithm algorithm = Algorithm.HMAC256(Constantes.CHAVE_SECRETA_STRING);
+    private Algorithm algorithm = Algorithm.HMAC256(Constantes.SECRET_KEY_STRING);
 
     public String generateToken(UserDetails userDetails) {
         return createToken(new HashMap<>(), userDetails.getUsername(), 5); // Token expira em 5 horas

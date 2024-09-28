@@ -2,20 +2,18 @@ package com.carwash.carwash.util.exceptions;
 
 public class ErrorMessages {
     
-    public static final String USUARIO_NAO_ENCONTRADO = "Usuário não encontrado";
-    public static final String USUARIO_JA_CADASTRADO = "Usuário já cadastrado";
-    public static final String USUARIO_NAO_AUTORIZADO = "Usuário não autorizado";
-    public static final String USUARIO_SEM_PERMISSAO = "Usuário sem permissão";
-    public static final String USUARIO_SEM_AUTENTICACAO = "Usuário sem autenticação";
-    public static final String CLIENTE_JA_CADASTRADO = "Cliente já cadastrado";
-    public static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
-    public static final String EMAIL_INVALIDO = "Email inválido";
-    public static final String SENHA_INVALIDA = "Senha inválida";
-    public static final String SENHA_NAO_CONFERE = "Senha não confere";
-    public static final String SENHA_NAO_ALTERADA = "Senha não alterada";
-    public static final String EMPRESA_NAO_ENCONTRADA = "Empresa não encontrada";
-    public static final String TOKEN_INVALIDO = "Token invalido";
-    public static final String CPF_INVALIDO = "CPF inválido";
-    
-    
+    public static final String USER_NOT_FOUND = "Usuário não encontrado ";
+    public static final String USER_ALREADY_REGISTERED = "Usuário já cadastrado com o email: ";
+    public static final String USER_NOT_AUTHORIZED = "Usuário não autorizado ";
+    public static final String USER_NO_PERMISSION = "Usuário sem permissão ";
+    public static final String USER_NOT_AUTHENTICATED = "Usuário sem autenticação ";
+    public static final String CLIENT_ALREADY_REGISTERED = "Cliente já cadastrado ";
+    public static final String CLIENT_NOT_FOUND = "Cliente não encontrado ";
+    public static final String INVALID_EMAIL = "Email inválido ";
+    public static final String INVALID_PASSWORD = "Senha inválida ";
+    public static final String PASSWORD_DOES_NOT_MATCH = "Senha não confere ";
+    public static final String PASSWORD_NOT_CHANGED = "Senha não alterada ";
+    public static final String COMPANY_NOT_FOUND = "Empresa não encontrada ";
+    public static final String INVALID_TOKEN = "Token invalido ";
+    public static final String INVALID_CPF = "CPF inválido ";
 }

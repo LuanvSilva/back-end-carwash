@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,    "/login", "/login/**").permitAll() 
                 .requestMatchers(HttpMethod.POST,   "/api/v1/auth/logar").permitAll()
                 .requestMatchers(HttpMethod.POST,   "/api/v1/auth/refresh").permitAll()
-                .requestMatchers(HttpMethod.POST,   "/api/users/cadastrarUsuario").permitAll()
+                .requestMatchers(HttpMethod.POST,   "/api/v1/users/createUser").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).cors();

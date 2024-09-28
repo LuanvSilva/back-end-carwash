@@ -12,6 +12,7 @@ import com.carwash.carwash.domain.Entities.empresa.Empresa;
 import com.carwash.carwash.domain.Entities.usuario.Usuario;
 import com.carwash.carwash.domain.Repositories.empresa.EmpresaRepository;
 import com.carwash.carwash.domain.Repositories.usuario.UserRepository;
+import com.carwash.carwash.util.constantes.Constantes;
 import com.carwash.carwash.util.exceptions.CustomException;
 import com.carwash.carwash.util.exceptions.ErrorMessages;
 
@@ -33,13 +34,22 @@ public class UsuarioService {
 
 
     public UserDTO createUser(UserDTO userDTO) {
-        
+
+       
+        if (!userDTO.getEmail().matches(Constantes.EMAIL_VALIDATION_REGEX)) {
+            throw new CustomException(ErrorMessages.INVALID_EMAIL + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
+        }
+
+        if (!userDTO.getPassword().matches(Constantes.PASSWORD_VALIDATION_REGEX)) {
+            throw new CustomException(ErrorMessages.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
+        }
+
         if (this.userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new CustomException(ErrorMessages.EMAIL_INVALIDO + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
+            throw new CustomException(ErrorMessages.USER_ALREADY_REGISTERED + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
         }
 
         Empresa buscaEmpresa = this.empresaRepository.findById(userDTO.getEmpresa())
-                .orElseThrow(() -> new CustomException(ErrorMessages.EMPRESA_NAO_ENCONTRADA + userDTO.getEmpresa(), HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorMessages.COMPANY_NOT_FOUND + userDTO.getEmpresa(), HttpStatus.NOT_FOUND));
 
         Usuario user = new Usuario();
         user.setName(userDTO.getName());
@@ -55,7 +65,7 @@ public class UsuarioService {
     public UserDTO getUserById(Long id) {
 
         Usuario user = userRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorMessages.USER_NOT_FOUND + id, HttpStatus.NOT_FOUND));
 
         return convertToDTO(user);
     }
@@ -68,10 +78,10 @@ public class UsuarioService {
     public UserDTO updateUser(Long id, UserDTO userDTO) {
 
         Usuario user = userRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorMessages.USER_NOT_FOUND + id, HttpStatus.NOT_FOUND));
 
         if (!user.getEmail().equals(userDTO.getEmail()) && userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new CustomException(ErrorMessages.EMAIL_INVALIDO + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
+            throw new CustomException(ErrorMessages.INVALID_EMAIL + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
         }
 
         user.setName(userDTO.getName());
@@ -84,7 +94,7 @@ public class UsuarioService {
     public void deleteUser(Long id) {
 
         if (!userRepository.existsById(id)) {
-            throw new CustomException(ErrorMessages.USUARIO_NAO_ENCONTRADO + id, HttpStatus.NOT_FOUND);
+            throw new CustomException(ErrorMessages.USER_NOT_FOUND + id, HttpStatus.NOT_FOUND);
         }
 
         userRepository.deleteById(id);

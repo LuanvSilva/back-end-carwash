@@ -11,8 +11,8 @@ import com.carwash.carwash.util.constantes.Constantes;
 public class LoginController {
 
     @GetMapping
-    public String logar() {
-        return Constantes.URL_GET_PAGES_LOGIN; 
+    public void logar() {
+        System.out.println(Constantes.EMAIL_VALIDATION_REGEX);
         
     }
 }

@@ -1,61 +1,60 @@
 package com.carwash.carwash.domain.Controller.usuario;
 
-
-import java.util.List;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.carwash.carwash.domain.Dtos.usuario.UserDTO;
 import com.carwash.carwash.domain.Service.usuario.UsuarioService;
+import com.carwash.carwash.util.exceptions.CustomException;
+
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService userService;
+    private final UsuarioService userService;
 
-    @PostMapping("/cadastrarUsuario")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO createdUser = userService.createUser(userDTO);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    @PostMapping("/createUser")
+    public ResponseEntity<UserDTO> createUser(@Validated @RequestBody UserDTO userDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDTO));
     }
 
-    @GetMapping("/buscarUsuario")
-    public ResponseEntity<UserDTO> getUserById(@RequestParam Long id) {
-        UserDTO user = userService.getUserById(id);
-        return user != null ? new ResponseEntity<>(user, HttpStatus.OK)
-                            : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @GetMapping("/listarUsuarios")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<Iterable<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PutMapping("/deleteUsuario")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
-
-        Long id = userDTO.getId();
-        UserDTO updatedUser = userService.updateUser(id, userDTO);
-        return updatedUser != null ? new ResponseEntity<>(updatedUser, HttpStatus.OK)
-                                   : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping("/updateUser")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@RequestBody Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<String> handleCustomException(CustomException e) {
+        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
     }
 }
