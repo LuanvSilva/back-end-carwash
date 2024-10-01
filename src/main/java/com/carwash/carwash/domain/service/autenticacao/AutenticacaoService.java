@@ -28,7 +28,7 @@ public class AutenticacaoService {
 
     public TokenResponseDto obterToken(AuthDto authDto, HttpServletRequest request) {
 
-        var authenticationToken = new UsernamePasswordAuthenticationToken(authDto.getLogin(), authDto.getSenha());
+        var authenticationToken = new UsernamePasswordAuthenticationToken(authDto.getLogin(), authDto.getPassword());
         authenticationManager.authenticate(authenticationToken);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authDto.getLogin());

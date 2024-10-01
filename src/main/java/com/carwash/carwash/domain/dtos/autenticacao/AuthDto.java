@@ -12,7 +12,7 @@ import lombok.Setter;
 public class AuthDto {
     
     private String login;
-    private String senha;
+    private String password;
 
     // Getters e Setters
 }
