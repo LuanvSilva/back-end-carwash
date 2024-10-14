@@ -37,8 +37,8 @@ public class AutenticacaoService {
 
         HttpSession session = request.getSession(true);
         session.setAttribute("token", token);
+        session.setAttribute("refreshToken", refreshToken);
        
-        
         return new TokenResponseDto(token, refreshToken);
     }
 
@@ -52,6 +52,7 @@ public class AutenticacaoService {
             final String newToken = jwtUtil.generateToken(userDetails);
 
             HttpSession session = request.getSession(true);
+            session.setAttribute("token", newToken);
             session.setAttribute("refreshToken", refreshToken);
             
             return new TokenResponseDto(newToken, refreshToken);

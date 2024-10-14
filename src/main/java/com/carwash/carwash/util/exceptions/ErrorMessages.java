@@ -16,4 +16,11 @@ public class ErrorMessages {
     public static final String COMPANY_NOT_FOUND = "Empresa não encontrada ";
     public static final String INVALID_TOKEN = "Token invalido ";
     public static final String INVALID_CPF = "CPF inválido ";
+    public static final String INVALID_CNPJ = "CNPJ inválido ";
+    public static final String ADDRESS_NOT_FOUND = "Endereço não encontrado ";
+    public static final String ADDRESS_ALREADY_REGISTERED = "Endereço já cadastrado ";
+    public static final String ADDRESS_NOT_UPDATED = "Endereço não atualizado ";
+    public static final String ADDRESS_NOT_DELETED = "Endereço não deletado ";
+    public static final String ADDRESS_NOT_CREATED = "Endereço não criado ";
+    public static final String ENDERECO_NOT_FOUND = "Endereço não encontrado ";
 }

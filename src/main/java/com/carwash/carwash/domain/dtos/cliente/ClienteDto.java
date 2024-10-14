@@ -1,5 +1,7 @@
 package com.carwash.carwash.domain.Dtos.cliente;
 
+import com.carwash.carwash.domain.Dtos.endereco.EnderecoDto;
+
 import lombok.*;
 
 @AllArgsConstructor
@@ -15,6 +17,6 @@ public class ClienteDto {
     private String name;
     private String email;
     private String telefone;
-    private Long endereco;
+    private EnderecoDto endereco;
     private boolean ativo;
 }

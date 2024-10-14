@@ -14,5 +14,4 @@ public class AuthDto {
     private String login;
     private String password;
 
-    // Getters e Setters
 }

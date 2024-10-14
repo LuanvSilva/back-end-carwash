@@ -63,6 +63,7 @@ public class UsuarioService {
     }
 
     private void validateNewUser(UserDTO userDTO) {
+        
         if (!userDTO.getEmail().matches(Constantes.EMAIL_VALIDATION_REGEX)) {
             throw new CustomException(ErrorMessages.INVALID_EMAIL + userDTO.getEmail(), HttpStatus.BAD_REQUEST);
         }

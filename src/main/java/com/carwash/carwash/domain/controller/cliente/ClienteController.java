@@ -2,8 +2,10 @@ package com.carwash.carwash.domain.Controller.cliente;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,36 +14,55 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carwash.carwash.domain.Dtos.cliente.ClienteDto;
 import com.carwash.carwash.domain.Service.cliente.ClienteService;
+import com.carwash.carwash.util.exceptions.CustomException;
+
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping("/api/v1/clientes")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/client")
 public class ClienteController {
     
-    @Autowired
-    private ClienteService clienteService;
 
-    @PostMapping("/cadastrarCliente")
-    public ResponseEntity<ClienteDto> createCliente(@RequestBody ClienteDto clienteDto) {
-        ClienteDto createdCliente = clienteService.createCliente(clienteDto);
-        return ResponseEntity.ok(createdCliente);
+    private final ClienteService clienteService;
+
+    @PostMapping("/createClient")
+    public ResponseEntity<ClienteDto> createCliente(@Validated @RequestBody ClienteDto clienteDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(clienteDto));
     }
 
-    @PostMapping("/buscarClienteById")
+    @PostMapping("/getClientById")
     public ResponseEntity<ClienteDto> getClienteById(@RequestBody Long id) {
-        ClienteDto cliente = clienteService.getClienteById(id);
-        return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(clienteService.getClienteById(id));
     }
 
-    @GetMapping("/listarClientes") // Usando GET
+    @GetMapping("/getAllClient") // Usando GET
     public ResponseEntity<List<ClienteDto>> getAllClientes() {
-        List<ClienteDto> clientes = clienteService.getAllClientes();
-        return ResponseEntity.ok(clientes);
+
+        return ResponseEntity.ok(clienteService.getAllClientes());
     }
 
-    @PostMapping("/buscarClienteByEmpresa")
+    @PostMapping("/findClientesByEmpresaId")
     public ResponseEntity<List<ClienteDto>> findClientesByEmpresaId(@RequestBody Long id_empresa) {
-        List<ClienteDto> clientes = clienteService.findClientesByEmpresaId(id_empresa);
-        return ResponseEntity.ok(clientes);
+    
+        return ResponseEntity.ok(clienteService.findClientesByEmpresaId(id_empresa));
+    }
+
+    @PostMapping("/updateClient")
+    public ResponseEntity<ClienteDto> updateCliente(@RequestBody ClienteDto clienteDto) {
+        ClienteDto updatedCliente = clienteService.updateCliente(clienteDto);
+        return ResponseEntity.ok(updatedCliente);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<String> handleCustomException(CustomException e) {
+        return ResponseEntity.status(e.getStatus()).body(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
     }
 }
