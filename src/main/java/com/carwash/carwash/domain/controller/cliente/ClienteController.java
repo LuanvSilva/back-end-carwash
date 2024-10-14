@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +37,8 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.getClienteById(id));
     }
 
-    @GetMapping("/getAllClient") // Usando GET
-    public ResponseEntity<List<ClienteDto>> getAllClientes() {
+    @PostMapping("/getAllClient") 
+    public ResponseEntity<List<ClienteDto>> getAllClientes(@RequestBody ClienteDto clienteDto) {
 
         return ResponseEntity.ok(clienteService.getAllClientes());
     }
