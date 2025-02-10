@@ -10,6 +10,7 @@ import com.carwash.carwash.domain.Dtos.endereco.EnderecoDto;
 import com.carwash.carwash.domain.Entities.empresa.Empresa;
 import com.carwash.carwash.domain.Entities.endereco.Endereco;
 import com.carwash.carwash.domain.Repositories.Endereco.EnderecoRepository;
+import com.carwash.carwash.domain.Repositories.empresa.EmpresaRepository;
 import com.carwash.carwash.util.exceptions.CustomException;
 import com.carwash.carwash.util.exceptions.ErrorMessages;
 
@@ -22,12 +23,13 @@ import lombok.RequiredArgsConstructor;
 public class EnderecoService {
 
      private final EnderecoRepository enderecoRepository;
+      private final EmpresaRepository empresaRepository;
 
 
     @Transactional
     public EnderecoDto createEndereco(EnderecoDto enderecoDto, Long empresa) {
 
-        Endereco endereco = mapToEntity(enderecoDto);
+        Endereco endereco = mapToEntity(enderecoDto, empresa);
         Endereco savedEndereco = enderecoRepository.save(endereco);
         return mapToDto(savedEndereco);
     }
@@ -41,9 +43,9 @@ public class EnderecoService {
         return enderecoRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
-    public EnderecoDto updateEndereco(EnderecoDto enderecoDto) {
+    public EnderecoDto updateEndereco(EnderecoDto enderecoDto, Long empresaId) {
         Endereco endereco = findEnderecoById(enderecoDto.getId());
-        Endereco updatedEndereco = mapToEntity(enderecoDto);
+        Endereco updatedEndereco = mapToEntity(enderecoDto, empresaId);
         updatedEndereco.setId(endereco.getId());
         return mapToDto(enderecoRepository.save(updatedEndereco));
     }
@@ -53,14 +55,21 @@ public class EnderecoService {
                 .orElseThrow(() -> new CustomException(ErrorMessages.ENDERECO_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
-    private Endereco mapToEntity(EnderecoDto enderecoDto) {
+    private Empresa findEmpresaById(Long empresaId) {
+        return empresaRepository.findById(empresaId)
+                .orElseThrow(() -> new CustomException(ErrorMessages.COMPANY_NOT_FOUND + empresaId, HttpStatus.NOT_FOUND));
+    }
+
+    private Endereco mapToEntity(EnderecoDto enderecoDto, Long empresaId) {
+        Empresa empresa_moon = findEmpresaById(enderecoDto.getEmpresa());
         return Endereco.builder()
                 .cep(enderecoDto.getCep())
                 .bairro(enderecoDto.getBairro())
                 .cidade(enderecoDto.getCidade())
                 .estado(enderecoDto.getEstado())
-                .endereco(enderecoDto.getEndereco())
+                .endereco(enderecoDto.getRua())
                 .numero(enderecoDto.getNumero())
+                .empresa(empresa_moon)
                 .complemento(enderecoDto.getComplemento())
                 .build();
     }
@@ -72,7 +81,7 @@ public class EnderecoService {
                 .bairro(endereco.getBairro())
                 .cidade(endereco.getCidade())
                 .estado(endereco.getEstado())
-                .endereco(endereco.getEndereco())
+                .rua(endereco.getEndereco())
                 .numero(endereco.getNumero())
                 .complemento(endereco.getComplemento())
                 .build();
@@ -84,7 +93,7 @@ public class EnderecoService {
                 .bairro(enderecoDto.getBairro())
                 .cidade(enderecoDto.getCidade())
                 .estado(enderecoDto.getEstado())
-                .endereco(enderecoDto.getEndereco())
+                .endereco(enderecoDto.getRua())
                 .numero(enderecoDto.getNumero())
                 .empresa(empresa)
                 .complemento(enderecoDto.getComplemento())

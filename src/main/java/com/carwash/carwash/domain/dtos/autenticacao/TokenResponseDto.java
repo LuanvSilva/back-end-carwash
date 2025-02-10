@@ -12,4 +12,7 @@ import lombok.Setter;
 public class TokenResponseDto {
     private String token;
     private String refreshToken;
+    private Long empresa;
+    private String email;
+    private Long userId;
 }

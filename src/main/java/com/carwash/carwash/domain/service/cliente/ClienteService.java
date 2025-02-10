@@ -1,20 +1,22 @@
 package com.carwash.carwash.domain.Service.cliente;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.carwash.carwash.domain.Dtos.cliente.ClienteDto;
+import com.carwash.carwash.domain.Dtos.cliente.ClienteEmpresaDto;
 import com.carwash.carwash.domain.Dtos.endereco.EnderecoDto;
 import com.carwash.carwash.domain.Entities.cliente.Cliente;
 import com.carwash.carwash.domain.Entities.empresa.Empresa;
 import com.carwash.carwash.domain.Entities.endereco.Endereco;
 import com.carwash.carwash.domain.Repositories.Endereco.EnderecoRepository;
+import com.carwash.carwash.domain.Repositories.cliente.ClienteEmpresaRepository;
 import com.carwash.carwash.domain.Repositories.cliente.ClienteRepository;
 import com.carwash.carwash.domain.Repositories.empresa.EmpresaRepository;
+import com.carwash.carwash.domain.Service.Impl.cliente.ClienteEmpresaProjection;
 import com.carwash.carwash.domain.Service.endereco.EnderecoService;
 import com.carwash.carwash.util.constantes.Constantes;
 import com.carwash.carwash.util.exceptions.CustomException;
@@ -32,15 +34,16 @@ public class ClienteService {
     private final EmpresaRepository empresaRepository;
     private final EnderecoRepository enderecoRepository;
     private final EnderecoService enderecoService;
+    private final ClienteEmpresaRepository clienteEmpresaRepository;
+
     
 
     @Transactional
-    public ClienteDto createCliente(ClienteDto clienteDto) {
+    public ClienteDto createCliente(ClienteDto clienteDto, Long empresaId) {
 
         validateNewCliente(clienteDto);
-        
-        EnderecoDto enderecoDto = enderecoService.createEndereco(clienteDto.getEndereco(), clienteDto.getEmpresa());
-        Empresa empresa = findEmpresaById(clienteDto.getEmpresa());
+        Empresa empresa = findEmpresaById(empresaId);
+        EnderecoDto enderecoDto = enderecoService.createEndereco(clienteDto.getEndereco(), empresa.getId());
 
         // Associar o endereço cadastrado ao cliente
         Cliente cliente = mapToEntity(clienteDto, empresa, enderecoDto);
@@ -101,6 +104,25 @@ public class ClienteService {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorMessages.CLIENT_NOT_FOUND + id, HttpStatus.NOT_FOUND));
     }
+
+    public ClienteEmpresaDto findClienteAndEmpresa(String email) {
+
+        List<ClienteEmpresaProjection> resultados = clienteEmpresaRepository.findClienteAndEmpresa(email);
+        
+        if (resultados.isEmpty()) {
+            throw new CustomException(ErrorMessages.CLIENT_NOT_FOUND + email, HttpStatus.NOT_FOUND);
+        }
+
+        // Pegando o primeiro resultado da lista
+        ClienteEmpresaProjection resultado = resultados.get(0);
+
+        return ClienteEmpresaDto.builder()
+                .UserId(resultado.getUserId())
+                .EmpresaMoon(resultado.getEmpresaMoon())
+                .UserEmail(resultado.getUserEmail())
+                .build();
+    }
+
 
     private Cliente mapToEntity(ClienteDto clienteDto, Empresa empresa, EnderecoDto enderecoDto) {
         

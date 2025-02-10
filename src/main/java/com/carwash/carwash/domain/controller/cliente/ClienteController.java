@@ -15,6 +15,7 @@ import com.carwash.carwash.domain.Dtos.cliente.ClienteDto;
 import com.carwash.carwash.domain.Service.cliente.ClienteService;
 import com.carwash.carwash.util.exceptions.CustomException;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 
@@ -27,8 +28,11 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping("/createClient")
-    public ResponseEntity<ClienteDto> createCliente(@Validated @RequestBody ClienteDto clienteDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(clienteDto));
+    public ResponseEntity<ClienteDto> createCliente(@Validated @RequestBody ClienteDto clienteDto, HttpServletRequest request) {
+
+        String empresaMoon = request.getHeader("empresa");
+        System.out.println("Empresa: " + empresaMoon);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(clienteDto, Long.parseLong(empresaMoon)));
     }
 
     @PostMapping("/getClientById")
@@ -62,6 +66,6 @@ public class ClienteController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }

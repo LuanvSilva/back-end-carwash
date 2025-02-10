@@ -22,7 +22,7 @@ public class EnderecoDto {
     String bairro;
     String cidade;
     String estado;
-    String endereco;
+    String rua;
     String numero;
     String complemento;
     public Endereco orElseThrow(Object object) {
