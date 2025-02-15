@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString(callSuper = true)
 public class Solicitacao {
 

@@ -35,4 +35,12 @@ public class ErrorMessages {
     public static final String ITEM_ALREADY_REGISTERED = "Item já cadastrado ";
     public static final String ITEM_NOT_UPDATED = "Item não atualizado ";
     public static final String ITEM_NOT_DELETED = "Item não deletado ";
+    public static final String ITEM_NOT_CREATED = "Item não criado ";
+    public static final String REQUEST_NOT_CREATED = "Solicitação não criada ";
+    public static final String REQUEST_NOT_FOUND = "Solicitação não encontrada ";
+    public static final String REQUEST_NOT_UPDATED = "Solicitação não atualizada ";
+    public static final String REQUEST_NOT_DELETED = "Solicitação não deletada ";
+    public static final String STATUS_NOT_FOUND = "Status não encontrado ";
+    public static final String STATUS_ALREADY_REGISTERED = "Status já cadastrado ";
+    public static final String SERVICE_NOT_FOUND = "Serviço não encontrado ";
 }
