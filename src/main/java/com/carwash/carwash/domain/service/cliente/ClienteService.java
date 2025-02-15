@@ -43,10 +43,7 @@ public class ClienteService {
 
         validateNewCliente(clienteDto);
         Empresa empresa = findEmpresaById(empresaId);
-        EnderecoDto enderecoDto = enderecoService.createEndereco(clienteDto.getEndereco(), empresa.getId());
-
-        // Associar o endereço cadastrado ao cliente
-        Cliente cliente = mapToEntity(clienteDto, empresa, enderecoDto);
+        Cliente cliente = mapToEntity(clienteDto, empresa, clienteDto.getEndereco());
         Cliente savedCliente = clienteRepository.save(cliente);
         return mapToDto(savedCliente);
     }

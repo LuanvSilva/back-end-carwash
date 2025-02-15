@@ -23,4 +23,16 @@ public class ErrorMessages {
     public static final String ADDRESS_NOT_DELETED = "Endereço não deletado ";
     public static final String ADDRESS_NOT_CREATED = "Endereço não criado ";
     public static final String ENDERECO_NOT_FOUND = "Endereço não encontrado ";
+    public static final String ENDERECO_ALREADY_REGISTERED = "Endereço já cadastrado ";
+    public static final String ENDERECO_NOT_UPDATED = "Endereço não atualizado ";
+    public static final String TYPE_NOT_FOUND = "Tipo não encontrado ";
+    public static final String TYPE_ALREADY_REGISTERED = "Tipo já cadastrado ";
+    public static final String TYPE_NOT_UPDATED = "Tipo não atualizado ";
+    public static final String TYPE_NOT_DELETED = "Tipo não deletado ";
+    public static final String UNIT_NOT_FOUND = "Unidade não encontrada ";
+    public static final String CATEGORY_NOT_FOUND = "Categoria não encontrada ";
+    public static final String ITEM_NOT_FOUND = "Item não encontrado ";
+    public static final String ITEM_ALREADY_REGISTERED = "Item já cadastrado ";
+    public static final String ITEM_NOT_UPDATED = "Item não atualizado ";
+    public static final String ITEM_NOT_DELETED = "Item não deletado ";
 }

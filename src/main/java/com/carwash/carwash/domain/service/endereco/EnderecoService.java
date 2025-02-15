@@ -30,6 +30,7 @@ public class EnderecoService {
     public EnderecoDto createEndereco(EnderecoDto enderecoDto, Long empresa) {
 
         Endereco endereco = mapToEntity(enderecoDto, empresa);
+        System.out.println("Empresa: " + endereco.getEmpresa());
         Endereco savedEndereco = enderecoRepository.save(endereco);
         return mapToDto(savedEndereco);
     }
@@ -61,13 +62,13 @@ public class EnderecoService {
     }
 
     private Endereco mapToEntity(EnderecoDto enderecoDto, Long empresaId) {
-        Empresa empresa_moon = findEmpresaById(enderecoDto.getEmpresa());
+        Empresa empresa_moon = findEmpresaById(empresaId);
         return Endereco.builder()
                 .cep(enderecoDto.getCep())
                 .bairro(enderecoDto.getBairro())
                 .cidade(enderecoDto.getCidade())
                 .estado(enderecoDto.getEstado())
-                .endereco(enderecoDto.getRua())
+                .endereco(enderecoDto.getEndereco())
                 .numero(enderecoDto.getNumero())
                 .empresa(empresa_moon)
                 .complemento(enderecoDto.getComplemento())
@@ -81,7 +82,7 @@ public class EnderecoService {
                 .bairro(endereco.getBairro())
                 .cidade(endereco.getCidade())
                 .estado(endereco.getEstado())
-                .rua(endereco.getEndereco())
+                .endereco(endereco.getEndereco())
                 .numero(endereco.getNumero())
                 .complemento(endereco.getComplemento())
                 .build();
@@ -93,7 +94,7 @@ public class EnderecoService {
                 .bairro(enderecoDto.getBairro())
                 .cidade(enderecoDto.getCidade())
                 .estado(enderecoDto.getEstado())
-                .endereco(enderecoDto.getRua())
+                .endereco(enderecoDto.getEndereco())
                 .numero(enderecoDto.getNumero())
                 .empresa(empresa)
                 .complemento(enderecoDto.getComplemento())

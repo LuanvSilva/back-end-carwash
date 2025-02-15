@@ -31,6 +31,8 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> createCliente(@Validated @RequestBody ClienteDto clienteDto, HttpServletRequest request) {
 
         String empresaMoon = request.getHeader("empresa");
+        String empresa_2 = (String) request.getSession().getAttribute("token");
+        System.out.println("Empresa: " + empresa_2);
         System.out.println("Empresa: " + empresaMoon);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(clienteDto, Long.parseLong(empresaMoon)));
     }
