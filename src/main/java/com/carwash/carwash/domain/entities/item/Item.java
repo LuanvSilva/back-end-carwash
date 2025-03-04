@@ -32,7 +32,7 @@ import com.carwash.carwash.domain.Entities.unidade.Unidade;
 
 @Entity
 @Table(name = "erp_itens", indexes = {
-    @Index(name = "idx_empresa", columnList = "empresa_moon"),
+    @Index(name = "idx_empresa_item", columnList = "empresa_moon"),
     @Index(name = "idx_tipo", columnList = "tipo_id"),
     @Index(name = "idx_unidade", columnList = "unidade_id"),
     @Index(name = "idx_categoria", columnList = "categoria_id"),

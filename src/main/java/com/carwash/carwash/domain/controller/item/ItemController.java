@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +35,13 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(itemService.createItem(itemDTO, Long.parseLong(empresaMoon)));
     }
 
-    @PostMapping("/getItemById")
+    @GetMapping("/getItemById/{id}")
     public ResponseEntity<ItemDTO> getItemById(@RequestBody Long id) {
 
         return ResponseEntity.ok(itemService.getItemById(id));
     }
 
-    @PostMapping("/getAllItem") 
+    @GetMapping("/getAllItem") 
     public ResponseEntity<List<ItemDTO>> getAllItems(@RequestBody ItemDTO itemDTO) {
 
         return ResponseEntity.ok(itemService.getAllItems());
@@ -49,15 +53,15 @@ public class ItemController {
         return ResponseEntity.ok(itemService.findItemsByEmpresaId(id_empresa));
     }
 
-    @PostMapping("/updateItem")
+    @PutMapping("/updateItem")
     public ResponseEntity<ItemDTO> updateItem(@RequestBody ItemDTO itemDTO, HttpServletRequest request) {
         String empresaMoon = request.getHeader("empresa");
         ItemDTO updatedItem = itemService.updateItem(itemDTO, Long.parseLong(empresaMoon));
         return ResponseEntity.ok(updatedItem);
     }
 
-    @PostMapping("/deleteItem")
-    public ResponseEntity<String> deleteItem(@RequestBody Long id) {
+    @DeleteMapping("/deleteItem/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
         itemService.deleteItem(id);
         return ResponseEntity.ok("Item deletado com sucesso");
     }
