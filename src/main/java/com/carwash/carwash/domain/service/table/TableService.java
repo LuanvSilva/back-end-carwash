@@ -5,12 +5,14 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.carwash.carwash.domain.Dtos.table.item.TableItemDto;
 import com.carwash.carwash.domain.Dtos.unidade.UnidadeDTO;
 import com.carwash.carwash.domain.Repositories.categoria.CategoriaRepository;
 import com.carwash.carwash.domain.Repositories.cliente.ClienteEmpresaRepository;
 import com.carwash.carwash.domain.Repositories.empresa.EmpresaRepository;
 import com.carwash.carwash.domain.Repositories.item.ItemRepository;
 import com.carwash.carwash.domain.Repositories.status.StatusRepository;
+import com.carwash.carwash.domain.Repositories.table.item.TableItemRepository;
 import com.carwash.carwash.domain.Repositories.unidade.UnidadeRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +28,8 @@ public class TableService {
     private final UnidadeRepository unidadeRepository;
     private final CategoriaRepository categoriaRepository;
     private final ClienteEmpresaRepository clienteEmpresaRepository;
+    private final TableItemRepository tableItemRepository;
+
 
     private final ModelMapper modelMapper;
 
@@ -56,6 +60,18 @@ public class TableService {
         return categoriaRepository.findAll().stream()
             .map(categoria -> modelMapper.map(categoria, UnidadeDTO.class))
             .toList();
+    }
+
+    @Transactional
+    public List<UnidadeDTO> getItem() {
+        return itemRepository.findAll().stream()
+            .map(item -> modelMapper.map(item, UnidadeDTO.class))
+            .toList();
+    }
+
+    @Transactional
+    public List<TableItemDto> getTableItemsByEmpresaId(Long empresaId) {
+        return tableItemRepository.findTableItemsByEmpresaId(empresaId);
     }
     
 }

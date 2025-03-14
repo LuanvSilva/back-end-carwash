@@ -1,5 +1,8 @@
 package com.carwash.carwash.domain.Controller.table;
 
+import java.net.http.HttpRequest;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -7,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carwash.carwash.domain.Dtos.table.item.TableItemDto;
 import com.carwash.carwash.domain.Service.table.TableService;
 import com.carwash.carwash.util.exceptions.CustomException;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,6 +42,18 @@ public class TableController {
     @GetMapping("/categoria")
     public ResponseEntity<?> getCategoria() {
         return ResponseEntity.ok(tableService.getCategoria());
+    }
+
+    @GetMapping("/servico")
+    public ResponseEntity<?> getItem() {
+        return ResponseEntity.ok(tableService.getItem());
+    }
+
+    @GetMapping("/item")
+    public ResponseEntity<List<TableItemDto>> getTableItemsByEmpresaId(HttpServletRequest request) {
+
+        String empresaId = request.getHeader("empresa");
+        return ResponseEntity.ok(tableService.getTableItemsByEmpresaId(Long.parseLong(empresaId)));
     }
 
     @ExceptionHandler(CustomException.class)
