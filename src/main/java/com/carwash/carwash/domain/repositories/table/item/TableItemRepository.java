@@ -14,7 +14,7 @@ import com.carwash.carwash.domain.Entities.item.Item;
 public interface TableItemRepository extends CrudRepository<Item, Long> {
 
     @Query("SELECT new com.carwash.carwash.domain.Dtos.table.item.TableItemDto(" +
-           "i.id, i.descricao, i.codigo, " +
+           "i.id, i.descricao, i.codigo, i.observacao, i.ativo," +
            "c.id, c.descricao, c.codigo, " +
            "u.id, u.descricao, u.codigo, " +
            "t.id, t.descricao, t.codigo) " +

@@ -13,6 +13,8 @@ public class TableItemDto {
     private Long itemId;
     private String itemDescricao;
     private String itemCodigo;
+    private String observacao;
+    private Boolean ativo;
     private Long categoriaId;
     private String categoriaDescricao;
     private String categoriaCodigo;
