@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carwash.carwash.domain.Dtos.table.item.ItemSelectDto;
+import com.carwash.carwash.domain.Dtos.table.item.ServicoDto;
 import com.carwash.carwash.domain.Dtos.table.item.TableItemDto;
 import com.carwash.carwash.domain.Service.table.TableService;
 import com.carwash.carwash.util.exceptions.CustomException;
@@ -44,9 +46,14 @@ public class TableController {
         return ResponseEntity.ok(tableService.getCategoria());
     }
 
-    @GetMapping("/servico")
-    public ResponseEntity<?> getItem() {
+    @GetMapping("/getItem")
+    public ResponseEntity<List<ItemSelectDto>> getItem() {
         return ResponseEntity.ok(tableService.getItem());
+    }
+
+    @GetMapping("/getServices")
+    public ResponseEntity<List<ServicoDto>> getServices() {
+        return ResponseEntity.ok(tableService.getServices());
     }
 
     @GetMapping("/item")
@@ -54,6 +61,11 @@ public class TableController {
 
         String empresaId = request.getHeader("empresa");
         return ResponseEntity.ok(tableService.getTableItemsByEmpresaId(Long.parseLong(empresaId)));
+    }
+
+    @GetMapping("/cliente")
+    public ResponseEntity<?> getCliente() {
+        return ResponseEntity.ok(tableService.getCliente());
     }
 
     @ExceptionHandler(CustomException.class)

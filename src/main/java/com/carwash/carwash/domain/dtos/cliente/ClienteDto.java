@@ -12,7 +12,7 @@ import lombok.*;
 public class ClienteDto {
     
     private Long id;
-    private Long empresa;
+    private Long empresaId;
     private String cpfcnpj;
     private String name;
     private String email;

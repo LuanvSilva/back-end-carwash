@@ -143,7 +143,7 @@ public class ClienteService {
                 .cpfcnpj(cliente.getCpfcnpj())
                 .email(cliente.getEmail())
                 .telefone(cliente.getTelefone())
-                .empresa(cliente.getEmpresa().getId())
+                .empresaId(cliente.getEmpresa().getId())
                 .endereco(enderecoService.mapToDto(cliente.getEndereco())) 
                 .ativo(cliente.isAtivo())
                 .build();

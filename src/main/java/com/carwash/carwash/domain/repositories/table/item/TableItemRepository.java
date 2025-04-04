@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
 
+import com.carwash.carwash.domain.Dtos.table.item.ItemSelectDto;
+import com.carwash.carwash.domain.Dtos.table.item.ServicoDto;
 import com.carwash.carwash.domain.Dtos.table.item.TableItemDto;
 import com.carwash.carwash.domain.Entities.item.Item;
 
@@ -24,4 +26,12 @@ public interface TableItemRepository extends CrudRepository<Item, Long> {
            "JOIN i.tipo t " +
            "WHERE i.empresa.id = :empresaId")
     List<TableItemDto> findTableItemsByEmpresaId(@Param("empresaId") Long empresaId);
+
+
+    @Query("SELECT new com.carwash.carwash.domain.Dtos.table.item.ServicoDto(i.id, i.codigo, i.descricao) FROM Item i WHERE i.tipo.id = :tipoId AND i.ativo = true")
+    List<ServicoDto> findActiveServices(@Param("tipoId") int tipoId);
+
+    @Query("SELECT new com.carwash.carwash.domain.Dtos.table.item.ItemSelectDto(i.id, i.codigo, i.descricao) FROM Item i WHERE i.tipo.id = :tipoId AND i.ativo = true")
+    List<ItemSelectDto> findActiveItems(@Param("tipoId") int tipoId);
+
 }
