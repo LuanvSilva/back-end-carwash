@@ -1,8 +1,8 @@
 # CarWash API
 
 ![Badge](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-![Badge](https://img.shields.io/badge/linguagem-TypeScript-blue)
-![Badge](https://img.shields.io/badge/framework-Node.js%20/%20Express-green)
+![Badge](https://img.shields.io/badge/linguagem-Java%2022-blue)
+![Badge](https://img.shields.io/badge/framework-Spring%20Boot-green)
 
 ## 📝 Breve descrição
 
@@ -21,22 +21,23 @@ Este projeto foi criado para centralizar e otimizar a gestão de um lava-rápido
 
 ## 📚 Documentação
 
-A documentação detalhada das rotas da API pode ser encontrada na coleção do Postman ou Insomnia, que pode ser gerada a partir das rotas definidas no código.
+A documentação detalhada das rotas da API pode ser encontrada na coleção do Postman ou Insomnia. Com o Spring Boot, é comum adicionar o Swagger/OpenAPI para gerar documentação interativa.
 
 *(Esta seção pode ser expandida com links para documentações mais detalhadas, como Swagger/OpenAPI, se implementado no futuro).*
 
 ## 🏁 Guia de Início Rápido (Quick Start)
 
-Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
+Siga os passos abaixo para configurar e executar o projeto.
 
 ### Pré-requisitos
 
--   [Node.js](https://nodejs.org/en/) (versão 16 ou superior)
+-   [Java (JDK 22)](https://www.oracle.com/java/technologies/downloads/#jdk22-windows)
+-   [Maven](https://maven.apache.org/download.cgi)
 -   [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
 -   [Git](https://git-scm.com/)
 -   Um cliente de API como [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/) para testar os endpoints.
 
-### Instalação e Execução
+### Instalação e Execução (via Docker - Recomendado)
 
 1.  **Clone o repositório:**
     ```bash
@@ -44,86 +45,68 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
     cd carwash
     ```
 
-2.  **Instale as dependências:**
+2.  **Inicie os containers:**
+    O arquivo `compose.yaml` irá construir a imagem da aplicação e iniciar os containers do PostgreSQL, da aplicação e do PgAdmin.
     ```bash
-    npm install
+    docker-compose up --build -d
     ```
 
-3.  **Configure as variáveis de ambiente:**
-    -   Renomeie o arquivo `.env.example` para `.env`.
-    -   Preencha as variáveis, especialmente `DATABASE_URL` e `JWT_SECRET`.
-
-4.  **Inicie o banco de dados com Docker:**
-    ```bash
-    docker-compose up -d
-    ```
-
-5.  **Execute as migrações do banco de dados com Prisma:**
-    ```bash
-    npx prisma migrate dev
-    ```
-
-6.  **Inicie o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
-
-O servidor estará em execução em `http://localhost:3000`.
+O servidor estará em execução em `http://localhost:8080`.
 
 ## 🏗️ Arquitetura da Solução
 
-O sistema segue uma arquitetura em camadas para garantir a separação de responsabilidades, manutenibilidade e escalabilidade. O diagrama de sequência abaixo ilustra o fluxo de comunicação entre os componentes durante uma requisição. Este formato é renderizado automaticamente pelo GitHub.
+O sistema segue uma arquitetura em camadas para garantir a separação de responsabilidades, manutenibilidade e escalabilidade, padrão em aplicações Spring Boot. O diagrama de sequência abaixo ilustra o fluxo de comunicação entre os componentes.
 
 ```mermaid
 sequenceDiagram
     participant Cliente
-    participant Rota
-    participant Middleware
+    participant Spring MVC
     participant Controller
     participant Service
     participant Repository
-    participant DB [PostgreSQL + Prisma]
+    participant DB [PostgreSQL + Hibernate]
 
-    Cliente->>+Rota: Requisição HTTP
-    Rota->>+Middleware: Verificar Autenticação
-    Middleware-->>-Rota: Válido
-    Rota->>+Controller: Repassar Requisição
+    Cliente->>+Spring MVC: Requisição HTTP
+    Spring MVC->>+Controller: Encaminhar Requisição
     Controller->>+Service: Chamar regra de negócio
     Service->>+Repository: Solicitar dados
-    Repository->>+DB: Executar query
+    Repository->>+DB: Executar query (via Hibernate)
     DB-->>-Repository: Retornar dados
-    Repository-->>-Service: Retornar dados
+    Repository-->>-Service: Retornar objetos/entidades
     Service-->>-Controller: Retornar resultado
-    Controller-->>-Rota: Montar resposta JSON
-    Rota-->>-Cliente: Resposta HTTP
+    Controller-->>-Spring MVC: Retornar DTO/Response
+    Spring MVC-->>-Cliente: Resposta HTTP (JSON)
 ```
 
 ### Tecnologias Utilizadas
 
--   **Back-end**: Node.js, TypeScript
--   **Framework**: Express.js
+-   **Back-end**: Java 22
+-   **Framework**: Spring Boot
 -   **Banco de Dados**: PostgreSQL (gerenciado via Docker)
--   **ORM**: Prisma
+-   **ORM**: Spring Data JPA / Hibernate
 -   **Autenticação**: JSON Web Token (JWT)
 
 ### Estrutura do Projeto
 
-O projeto está organizado da seguinte forma:
+O projeto segue a estrutura padrão do Maven:
 
 ```
 .
-├── prisma/                 # Schema e migrações do Prisma
 ├── src/
-│   ├── controllers/        # Controladores (lógica de requisição/resposta)
-│   ├── middlewares/        # Middlewares do Express (ex: autenticação)
-│   ├── repositories/       # Camada de acesso aos dados (comunicação com o BD)
-│   ├── routes/             # Definição das rotas da API
-│   ├── services/           # Camada de serviços (regras de negócio)
-│   ├── utils/              # Funções utilitárias
-│   └── server.ts           # Ponto de entrada da aplicação
-├── .env.example            # Exemplo de variáveis de ambiente
-├── docker-compose.yml      # Configuração do container do banco de dados
-└── package.json            # Dependências e scripts do projeto
+│   └── main/
+│       ├── java/
+│       │   └── com/example/carwash/
+│       │       ├── config/         # Configurações (ex: Segurança)
+│       │       ├── controller/     # Controladores REST
+│       │       ├── model/          # Entidades JPA
+│       │       ├── repository/     # Repositórios Spring Data JPA
+│       │       ├── service/        # Serviços com regras de negócio
+│       │       └── CarwashApplication.java # Ponto de entrada
+│       └── resources/
+│           └── application.properties  # Configurações da aplicação
+├── pom.xml                 # Dependências e build do Maven
+├── Dockerfile              # Instruções para build da imagem Docker
+└── compose.yaml            # Orquestração dos containers
 ```
 
 ### Fluxo de uma Requisição
@@ -131,10 +114,10 @@ O projeto está organizado da seguinte forma:
 O fluxo de uma requisição HTTP, conforme ilustrado no diagrama, segue os seguintes passos:
 
 1.  O **Cliente** (ex: Postman, Frontend) envia uma requisição para um endpoint da API.
-2.  O **Express** recebe a requisição e a direciona para a **Rota** correspondente.
-3.  O **Middleware** de autenticação intercepta a requisição para verificar se o usuário possui um token válido e as permissões necessárias.
-4.  O **Controller** é acionado, validando os dados de entrada (body, params, query) e chamando o serviço apropriado.
-5.  O **Service** executa a lógica de negócio principal da operação.
-6.  O **Repository** é responsável por se comunicar com o banco de dados, executando as queries através do **Prisma ORM**.
+2.  O **Spring MVC (DispatcherServlet)** recebe a requisição e a direciona para o **Controller** correspondente.
+3.  O **Middleware** (como o Spring Security) pode interceptar a requisição para verificar autenticação e autorização.
+4.  O **Controller** processa a requisição, valida os dados e chama o **Service** apropriado.
+5.  O **Service** contém a lógica de negócio e transações, utilizando um ou mais **Repositories** para interagir com o banco de dados.
+6.  O **Repository** (interface Spring Data JPA) executa as operações no banco de dados através do **Hibernate**.
 7.  A resposta do banco de dados retorna pela mesma cadeia (Repository → Service → Controller), e o Controller formata a resposta JSON final para o cliente.
 
