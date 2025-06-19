@@ -72,36 +72,30 @@ O servidor estará em execução em `http://localhost:3000`.
 
 ## 🏗️ Arquitetura da Solução
 
-O sistema segue uma arquitetura em camadas para garantir a separação de responsabilidades, manutenibilidade e escalabilidade. Abaixo está um diagrama que ilustra o fluxo de comunicação entre os componentes:
+O sistema segue uma arquitetura em camadas para garantir a separação de responsabilidades, manutenibilidade e escalabilidade. O diagrama de sequência abaixo ilustra o fluxo de comunicação entre os componentes durante uma requisição. Este formato é renderizado automaticamente pelo GitHub.
 
 ```mermaid
-graph TD
-    subgraph "Cliente"
-        A[Cliente API / Frontend]
-    end
+sequenceDiagram
+    participant Cliente
+    participant Rota
+    participant Middleware
+    participant Controller
+    participant Service
+    participant Repository
+    participant DB [PostgreSQL + Prisma]
 
-    subgraph "Servidor Node.js / Express"
-        B(Rotas)
-        C{Middleware de Autenticação}
-        D[Controller]
-        E[Service (Regras de Negócio)]
-        F[Repository (Acesso a Dados)]
-    end
-
-    subgraph "Banco de Dados"
-        G[(PostgreSQL com Prisma ORM)]
-    end
-
-    A -- Requisição HTTP --> B
-    B --> C
-    C -- Válido --> D
-    D --> E
-    E --> F
-    F -- Query --> G
-    G -- Resposta --> F
-    F --> E
-    E --> D
-    D -- Resposta JSON --> A
+    Cliente->>+Rota: Requisição HTTP
+    Rota->>+Middleware: Verificar Autenticação
+    Middleware-->>-Rota: Válido
+    Rota->>+Controller: Repassar Requisição
+    Controller->>+Service: Chamar regra de negócio
+    Service->>+Repository: Solicitar dados
+    Repository->>+DB: Executar query
+    DB-->>-Repository: Retornar dados
+    Repository-->>-Service: Retornar dados
+    Service-->>-Controller: Retornar resultado
+    Controller-->>-Rota: Montar resposta JSON
+    Rota-->>-Cliente: Resposta HTTP
 ```
 
 ### Tecnologias Utilizadas
