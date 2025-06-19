@@ -1,141 +1,146 @@
-# CarWash System
+# CarWash API
 
-## Breve descrição
-CarWash é um sistema de gerenciamento para empresas de lavagem de carros, permitindo o controle de clientes, agendamentos, serviços e gestão empresarial.
+![Badge](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Badge](https://img.shields.io/badge/linguagem-TypeScript-blue)
+![Badge](https://img.shields.io/badge/framework-Node.js%20/%20Express-green)
 
-## Sobre o Projeto
-O CarWash foi desenvolvido para digitalizar e otimizar o processo de atendimento em lava-jatos e empresas de estética automotiva. A motivação do projeto foi criar uma solução que facilite o gerenciamento de agendamentos, controle de clientes e administração de serviços, proporcionando uma experiência melhor tanto para os proprietários de lava-jatos quanto para seus clientes.
+## 📝 Breve descrição
 
-O sistema foi construído utilizando tecnologias modernas e arquitetura escalável para atender desde pequenos estabelecimentos até redes de lava-jatos.
+**CarWash API** é um sistema de back-end para gerenciamento de um lava-rápido. A API permite o controle de clientes, serviços oferecidos e o agendamento desses serviços, fornecendo uma base sólida para a construção de uma aplicação cliente (web ou mobile).
 
-## Principais Características
-- Cadastro e gerenciamento de clientes (pessoas físicas e empresas)
-- Agendamento de serviços com controle de horários
-- Catálogo de serviços personalizáveis
-- Gestão de funcionários e permissões
-- Dashboard com métricas de desempenho
-- Gestão financeira básica
-- Sistema de notificações para clientes
-- Interface responsiva para acesso via desktop e dispositivos móveis
+## 🚀 Sobre o Projeto
 
-## Documentação
-- [API Documentation](http://localhost:8080/swagger-ui.html) (disponível quando o sistema está em execução)
-- [Modelo de Dados](/docs/database-model.md)
-- [Manual do Usuário](/docs/user-manual.pdf)
+Este projeto foi criado para centralizar e otimizar a gestão de um lava-rápido. A principal motivação é oferecer uma solução escalável e robusta que organize os agendamentos, facilite o cadastro de serviços e gerencie os usuários do sistema de forma segura.
 
-## Guia de Início Rápido (Quick Start)
+## ✨ Principais Características
+
+-   **Autenticação de Usuários**: Sistema de login seguro utilizando JSON Web Tokens (JWT).
+-   **Gerenciamento de Usuários**: Operações de CRUD (Criar, Ler, Atualizar, Deletar) para usuários.
+-   **Gerenciamento de Serviços**: CRUD completo para os serviços oferecidos pelo lava-rápido.
+-   **Agendamento de Serviços**: Permite criar, visualizar, atualizar e cancelar agendamentos.
+
+## 📚 Documentação
+
+A documentação detalhada das rotas da API pode ser encontrada na coleção do Postman ou Insomnia, que pode ser gerada a partir das rotas definidas no código.
+
+*(Esta seção pode ser expandida com links para documentações mais detalhadas, como Swagger/OpenAPI, se implementado no futuro).*
+
+## 🏁 Guia de Início Rápido (Quick Start)
+
+Siga os passos abaixo para configurar e executar o projeto em seu ambiente local.
 
 ### Pré-requisitos
-- Docker e Docker Compose
-- Java 11+ (para desenvolvimento)
-- Maven (para desenvolvimento)
-- PostgreSQL (se executado fora do Docker)
+
+-   [Node.js](https://nodejs.org/en/) (versão 16 ou superior)
+-   [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
+-   [Git](https://git-scm.com/)
+-   Um cliente de API como [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/) para testar os endpoints.
 
 ### Instalação e Execução
 
-#### Utilizando Docker (recomendado)
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/carwash.git
-   cd carwash
-   ```
+1.  **Clone o repositório:**
+    ```bash
+    git clone <URL_DO_REPOSITORIO>
+    cd carwash
+    ```
 
-2. Execute o sistema utilizando Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-3. Acesse o sistema:
-   - Aplicação web: http://localhost:8080
-   - PgAdmin (gerenciamento do banco de dados): http://localhost:5050
-     - Email: admin@admin.com
-     - Senha: admin
+3.  **Configure as variáveis de ambiente:**
+    -   Renomeie o arquivo `.env.example` para `.env`.
+    -   Preencha as variáveis, especialmente `DATABASE_URL` e `JWT_SECRET`.
 
-#### Para Desenvolvimento Local
-1. Clone o repositório
-2. Configure o banco de dados PostgreSQL
-3. Atualize as configurações de banco de dados em `application.properties`
-4. Execute o Maven:
-   ```bash
-   mvn clean install
-   mvn spring-boot:run
-   ```
+4.  **Inicie o banco de dados com Docker:**
+    ```bash
+    docker-compose up -d
+    ```
 
-### Credenciais padrão
-- **Aplicação**:
-  - Usuário: admin@carwash.com
-  - Senha: admin123
+5.  **Execute as migrações do banco de dados com Prisma:**
+    ```bash
+    npx prisma migrate dev
+    ```
 
-- **Banco de dados PostgreSQL**:
-  - Usuário: postgres
-  - Senha: admin
-  - Banco de dados: carwash
-  - Porta: 5432
+6.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm run dev
+    ```
 
-## Arquitetura da Solução
+O servidor estará em execução em `http://localhost:3000`.
 
-### Visão Geral da Arquitetura
-O CarWash segue uma arquitetura em camadas baseada em Spring Boot:
+## 🏗️ Arquitetura da Solução
 
-- **Camada de Apresentação**: Responsável pela interação com o usuário, utilizando Thymeleaf para renderização de páginas web dinâmicas.
-- **Camada de Serviço**: Contém a lógica de negócio da aplicação, onde as regras e processos são implementados.
-- **Camada de Persistência**: Gerencia a comunicação com o banco de dados, utilizando Spring Data JPA para abstração e acesso aos dados.
-- **Camada de Banco de Dados**: Onde os dados são fisicamente armazenados, utilizando PostgreSQL como sistema gerenciador de banco de dados.
+O sistema segue uma arquitetura em camadas para garantir a separação de responsabilidades, manutenibilidade e escalabilidade. Abaixo está um diagrama que ilustra o fluxo de comunicação entre os componentes:
 
-### Diagrama de Arquitetura
-```plantuml
-@startuml
-package "Camada de Apresentação" {
-  [Controlador de Clientes]
-  [Controlador de Agendamentos]
-  [Controlador de Serviços]
-}
+```mermaid
+graph TD
+    subgraph "Cliente"
+        A[Cliente API / Frontend]
+    end
 
-package "Camada de Serviço" {
-  [Serviço de Clientes]
-  [Serviço de Agendamentos]
-  [Serviço de Serviços]
-}
+    subgraph "Servidor Node.js / Express"
+        B(Rotas)
+        C{Middleware de Autenticação}
+        D[Controller]
+        E[Service (Regras de Negócio)]
+        F[Repository (Acesso a Dados)]
+    end
 
-package "Camada de Persistência" {
-  [Repositório de Clientes]
-  [Repositório de Agendamentos]
-  [Repositório de Serviços]
-}
+    subgraph "Banco de Dados"
+        G[(PostgreSQL com Prisma ORM)]
+    end
 
-package "Camada de Banco de Dados" {
-  [PostgreSQL]
-}
-
-[Controlador de Clientes] --> [Serviço de Clientes]
-[Controlador de Agendamentos] --> [Serviço de Agendamentos]
-[Controlador de Serviços] --> [Serviço de Serviços]
-
-[Serviço de Clientes] --> [Repositório de Clientes]
-[Serviço de Agendamentos] --> [Repositório de Agendamentos]
-[Serviço de Serviços] --> [Repositório de Serviços]
-
-[Repositório de Clientes] --> [PostgreSQL]
-[Repositório de Agendamentos] --> [PostgreSQL]
-[Repositório de Serviços] --> [PostgreSQL]
-@enduml
+    A -- Requisição HTTP --> B
+    B --> C
+    C -- Válido --> D
+    D --> E
+    E --> F
+    F -- Query --> G
+    G -- Resposta --> F
+    F --> E
+    E --> D
+    D -- Resposta JSON --> A
 ```
 
-## Roadmap
-- [x] Cadastro de Clientes
-- [x] Cadastro de Funcionários
-- [x] Cadastro de Serviços
-- [x] Agendamento de Serviços
-- [ ] Integração com sistemas de pagamento
-- [ ] Relatórios avançados
-- [ ] Sistema de fidelidade para clientes
+### Tecnologias Utilizadas
 
-## Contribuindo
-Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests ou relatar problemas.
+-   **Back-end**: Node.js, TypeScript
+-   **Framework**: Express.js
+-   **Banco de Dados**: PostgreSQL (gerenciado via Docker)
+-   **ORM**: Prisma
+-   **Autenticação**: JSON Web Token (JWT)
 
-## Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+### Estrutura do Projeto
 
-## Contato
-- **Email**: contato@carwash.com
+O projeto está organizado da seguinte forma:
+
+```
+.
+├── prisma/                 # Schema e migrações do Prisma
+├── src/
+│   ├── controllers/        # Controladores (lógica de requisição/resposta)
+│   ├── middlewares/        # Middlewares do Express (ex: autenticação)
+│   ├── repositories/       # Camada de acesso aos dados (comunicação com o BD)
+│   ├── routes/             # Definição das rotas da API
+│   ├── services/           # Camada de serviços (regras de negócio)
+│   ├── utils/              # Funções utilitárias
+│   └── server.ts           # Ponto de entrada da aplicação
+├── .env.example            # Exemplo de variáveis de ambiente
+├── docker-compose.yml      # Configuração do container do banco de dados
+└── package.json            # Dependências e scripts do projeto
+```
+
+### Fluxo de uma Requisição
+
+O fluxo de uma requisição HTTP, conforme ilustrado no diagrama, segue os seguintes passos:
+
+1.  O **Cliente** (ex: Postman, Frontend) envia uma requisição para um endpoint da API.
+2.  O **Express** recebe a requisição e a direciona para a **Rota** correspondente.
+3.  O **Middleware** de autenticação intercepta a requisição para verificar se o usuário possui um token válido e as permissões necessárias.
+4.  O **Controller** é acionado, validando os dados de entrada (body, params, query) e chamando o serviço apropriado.
+5.  O **Service** executa a lógica de negócio principal da operação.
+6.  O **Repository** é responsável por se comunicar com o banco de dados, executando as queries através do **Prisma ORM**.
+7.  A resposta do banco de dados retorna pela mesma cadeia (Repository → Service → Controller), e o Controller formata a resposta JSON final para o cliente.
 
